@@ -37,9 +37,19 @@ session_start();
         <h1 class="h3 mb-3 font-weight-normal">Registro</h1>
 
           <?php 
-          if (isset($_GET['exito'])) {
-            echo '<p>Registro ingresado correctamente!</p>';
-          }
+          if (isset($_GET['exito'])) 
+          {
+            if($_GET['exito']=="exito")
+            {
+
+              echo '<p>Registro ingresado correctamente!</p>';
+            }
+            else
+            {
+              echo "Usario ya registrado";
+            }  
+          }          
+
         ?>
 
       </div>     

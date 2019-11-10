@@ -17,13 +17,35 @@ header("Location: ../paginas/ingresarVehiculo.php?exito=exito");
 include 'AccesoDatos.php';
 $miObjeto = new stdClass();
 $miObjeto->nombre = $_GET['inputPatente'];
-//$miObjeto->apellido = $_GET['inputPassword'];
-$objetoAccesoDato = AccesoDatos::dameUnObjetoAcceso(); 
-$select="INSERT INTO factura(patente) VALUES ('$miObjeto->nombre')";
-$consulta =$objetoAccesoDato->RetornarConsulta($select);
-$consulta->execute();
 
-header("Location: ../paginas/ingresarVehiculo.php?exito=exito");
+//$miObjeto->apellido = $_GET['inputPassword'];
+
+$objetoAccesoDato = AccesoDatos::dameUnObjetoAcceso(); 
+
+//Hago consulta primero para no repetir vehiculos
+$consulta =$objetoAccesoDato->RetornarConsulta("select patente  , clave  from factura");
+
+$datos= $consulta->fetchAll(PDO::FETCH_ASSOC);
+
+foreach ($datos as $factura)
+{
+	if($factura["patente"]==$miObjeto->nombre)
+	{
+		$select="INSERT INTO factura(patente) VALUES ('$miObjeto->nombre')";
+		$consulta =$objetoAccesoDato->RetornarConsulta($select);
+		$consulta->execute();
+
+		header("Location: ../paginas/ingresarVehiculo.php?exito=exito");
+	}
+
+	else
+	{
+		header("Location: ../paginas/ingresarVehiculo.php?exito=repetido");
+
+	}	
+
+}
+
 
 
 
