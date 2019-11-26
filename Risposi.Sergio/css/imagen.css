@@ -12,7 +12,11 @@
   padding: 5px;
  
 }
-
+.foto2{
+  background-image: url(../botones/login.ico);
+width: 10px;
+height: 10px;
+}
 /* Clase para las listas */
 .b {
   list-style-position: inside;

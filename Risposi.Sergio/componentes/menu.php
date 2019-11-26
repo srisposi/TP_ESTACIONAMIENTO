@@ -16,8 +16,12 @@
         <li class="nav-item">
           <a class="nav-link" href="/Risposi.Sergio/paginas/registro.php">Registrate</a>
         </li>
-        <li class="nav-item ">
-          <a class="nav-link" href="/Risposi.Sergio/paginas/login.php">Login</a>
+        <li class="nav-item">
+        <nav class="navbar navbar-light bg-dark">
+        <a class="navbar-brand" href="/Risposi.Sergio/paginas/login.php">
+        <img src="../botones/login.png" width="30" height="30" alt="">Login
+        </a>
+        </nav>
         </li>
         <?php 
         }
@@ -42,7 +46,7 @@
             }
             ?>
              <?php 
-            if(isset($_SESSION['usuario']) && ($_SESSION['perfilRegistrado']=="admin")){
+            if(isset($_SESSION['usuario']) && ($_SESSION['perfil']=="admin")){
               //solo muestra el menu si estas con la variable de sesión instaciada y sos de perfil admin
             ?>
            

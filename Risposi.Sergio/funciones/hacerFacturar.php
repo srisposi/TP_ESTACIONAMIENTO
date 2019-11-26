@@ -3,6 +3,8 @@ include "AccesoDatos.php";
 $precio = 100;	
 $bandera=1;
 $checkPatente = $_GET['inputPatente'];
+date_default_timezone_set('America/Argentina/Buenos_Aires');
+		$horaSalida=mktime();
 if (empty($checkPatente)) 
 {
 	header("Location: ../paginas/facturarVehiculo.php?error=campovacio");
@@ -17,29 +19,35 @@ else
 
 	$objetoHistorico = new stdClass();
 	
+
 foreach ($datos as $factura) 
 {			
 	if ($factura["patente"] == $checkPatente)  
 	{	
+		
 		$bandera=0;
-		date_default_timezone_set('America/Argentina/Buenos_Aires');
-		$horaSalida=mktime();
+		
+		
 		        		
 		$tiempo = $horaSalida - $factura['fechaIngreso'];
 		$resultado = $tiempo * $precio;	
+
+		$objetoHistorico->patente=$checkPatente;
+		$objetoHistorico->fechaIngreso=$factura['fechaIngreso'];
+		$objetoHistorico->fechaEgreso=$horaSalida;
+		$objetoHistorico->totalCobrado=$resultado;
+
 	}
 }
 
+
+
 if($bandera==0)
 {
-	$objetoHistorico->patente = $factura['patente'];
-	$objetoHistorico->fechaIngreso = $factura['fechaIngreso'];
-	$objetoHistorico->FechaSalida = $horaSalida;
-	$objetoHistorico->totalCobrado = $resultado;
-	
 	
 	$objetoAccesoDato = AccesoDatos::dameUnObjetoAcceso();	    	
-	$select="INSERT INTO historicoFacturados(patente, fechaIngreso, fechaEgreso, montoFactura) VALUES ('$objetoHistorico->patente','$objetoHistorico->fechaIngreso','$objetoHistorico->FechaSalida','$objetoHistorico->totalCobrado')";	    	
+	$select="INSERT INTO historicoFacturados(patente, fechaIngreso, fechaEgreso, montoFactura) VALUES ('$objetoHistorico->patente','$objetoHistorico->fechaIngreso','$objetoHistorico->fechaEgreso','$objetoHistorico->totalCobrado')";	
+	  	
 	$consulta =$objetoAccesoDato->RetornarConsulta($select);	    	
 	$consulta->execute();
 	             	
@@ -47,8 +55,8 @@ if($bandera==0)
 	$select="DELETE FROM `factura` WHERE patente=$checkPatente";	    	
 	$consulta =$objetoAccesoDato->RetornarConsulta($select);	    	
 	$consulta->execute();
-
-	header("Location: ../paginas/facturarVehiculo.php?cobrar=".$resultado."&ingreso=".$objetoHistorico->fechaIngreso."&salida=".$objetoHistorico->FechaSalida);			
+//
+	header("Location: ../paginas/facturarVehiculo.php?cobrar=".$resultado."&ingreso=".$objetoHistorico->fechaIngreso."&salida=".$objetoHistorico->fechaEgreso);			
 	exit();      
 }
 else

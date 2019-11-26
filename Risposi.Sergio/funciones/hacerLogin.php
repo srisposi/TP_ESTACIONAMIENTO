@@ -19,22 +19,25 @@
 	else
 	{
 		$objetoAccesoDato = AccesoDatos::dameUnObjetoAcceso(); 
-		$consulta =$objetoAccesoDato->RetornarConsulta("select nombre  , clave  from usuario");
+		$consulta =$objetoAccesoDato->RetornarConsulta("select * from usuario");
 		$consulta->execute();			
 		$datos= $consulta->fetchAll(PDO::FETCH_ASSOC);
 		//while(!feof($archivo)) 
+
 		foreach ($datos as $usuario) 
 		{
 
 			if ($usuario["nombre"] == $usuarioIngresado) 
 			{	
-
-	
-				$booUsuario = 1;
-				if ($usuario["clave"] == $claveIngresada)
+				$booUsuario = 1;	
+				if($usuario['estado']=="Deshabilitado")
 				{
-					$booPassword = 1;
-			
+					header("Location: ../paginas/login.php?error=usuariodenegado");
+					exit();
+				}
+				elseif ($usuario["clave"] == $claveIngresada)
+				{
+					$booUsuario = 2;			
 					$_SESSION['usuario']=$usuarioIngresado;
 
 					setcookie("usuario", $usuarioIngresado);				
@@ -52,9 +55,9 @@
 
 			exit();
 		}
-		else 
+		if ($booUsuario == 1)		 
 	    {
-			header("Location: ../paginas/login.php?error=contraseñaincorrecta");
+			header("Location: ../paginas/login.php?error=contrasenaincorrecta");
 
 			exit();
 		}
