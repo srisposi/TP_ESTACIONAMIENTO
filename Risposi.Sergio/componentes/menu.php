@@ -51,10 +51,10 @@
             ?>
            
             <li class="nav-item">
-              <a class="nav-link" href="/Risposi.Sergio/paginas/historicoVehiculos.php">Historial Vehiculos</a>
+              <a class="nav-link" href="Risposi.Sergio/paginas/historicoVehiculos.php">Historial Vehiculos</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="/Risposi.Sergio/paginas/historicoEmpleados.php">Historial Empleados</a>
+              <a class="nav-link" href="Risposi.Sergio/paginas/historicoEmpleados.php">Historial Empleados</a>
             </li>
 
             <?php 
